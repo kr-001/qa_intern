@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.12.0 on win32)" generated="2024-03-16T21:50:56.633957" rpa="false" schemaversion="5">
+<suite id="s1" name="Test Json Requests" source="F:\QA_INTERN\test_json_requests.robot">
+<test id="s1-t1" name="Valid POST Request Test" line="11">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:50:56.759052" level="INFO">Creating Session using : alias=my_session, url=http://localhost:5000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>${SESSION_NAME}</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2024-03-16T21:50:56.758006" elapsed="0.001046"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-03-16T21:50:56.760052" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<var>&amp;{headers}</var>
+<arg>Content-Type</arg>
+<arg>application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-03-16T21:50:56.759052" elapsed="0.001000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-03-16T21:50:56.761016" level="INFO">${data} = {'name': 'John', 'email': 'john@example.com'}</msg>
+<var>${data}</var>
+<arg>name=John</arg>
+<arg>email=john@example.com</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-03-16T21:50:56.760052" elapsed="0.000964"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:50:58.814889" level="INFO">POST Request : url=http://localhost:5000/submit-json 
+ path_url=/submit-json 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '45'} 
+ body=b'{"name": "John", "email": "john@example.com"}' 
+ </msg>
+<msg time="2024-03-16T21:50:58.814889" level="INFO">POST Response : url=http://localhost:5000/submit-json 
+ status=201, reason=CREATED 
+ headers={'Server': 'Werkzeug/3.0.1 Python/3.12.0', 'Date': 'Sat, 16 Mar 2024 16:20:58 GMT', 'Content-Type': 'application/json', 'Content-Length': '171', 'Connection': 'close'} 
+ body={"data":{"created_at":"16-03-2024 21:50:58","email":"john@example.com","id":"86623a5d-b491-428a-b7b4-1cfc4e2c8327","name":"John"},"message":"Data received successfully!"}
+ 
+ </msg>
+<msg time="2024-03-16T21:50:58.814889" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>${SESSION_NAME}</arg>
+<arg>/submit-json</arg>
+<arg>json=${data}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2024-03-16T21:50:56.761016" elapsed="2.053873"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2024-03-16T21:50:58.815861" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.815861" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-03-16T21:50:58.816873" level="INFO">${response_data} = {'data': {'created_at': '16-03-2024 21:50:58', 'email': 'john@example.com', 'id': '86623a5d-b491-428a-b7b4-1cfc4e2c8327', 'name': 'John'}, 'message': 'Data received successfully!'}</msg>
+<var>${response_data}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.816873" elapsed="0.000000"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${response_data["message"]}</arg>
+<arg>Data received successfully!</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.817851" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<msg time="2024-03-16T21:50:58.818887" level="INFO">False</msg>
+<arg>${response_data["data"]}</arg>
+<arg>id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.817851" elapsed="0.001036"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<msg time="2024-03-16T21:50:58.819333" level="INFO">False</msg>
+<arg>${response_data["data"]}</arg>
+<arg>name</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.819333" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<msg time="2024-03-16T21:50:58.820341" level="INFO">False</msg>
+<arg>${response_data["data"]}</arg>
+<arg>email</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.820341" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<msg time="2024-03-16T21:50:58.821344" level="INFO">False</msg>
+<arg>${response_data["data"]}</arg>
+<arg>created_at</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.821344" elapsed="0.000000"/>
+</kw>
+<doc>Test the correct processing of a POST request with valid JSON payload.</doc>
+<status status="PASS" start="2024-03-16T21:50:56.758006" elapsed="2.063338"/>
+</test>
+<test id="s1-t2" name="Submit Form Data Test" line="26">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:50:58.823341" level="INFO">Creating Session using : alias=Submit Data, url=http://localhost:5000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>Submit Data</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2024-03-16T21:50:58.823341" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-03-16T21:50:58.824357" level="INFO">${data} = {'name': 'John Doe', 'email': 'johndoe@example.com'}</msg>
+<var>${data}</var>
+<arg>name=John Doe</arg>
+<arg>email=johndoe@example.com</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.824357" elapsed="0.000000"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:51:00.875085" level="INFO">POST Request : url=http://localhost:5000/submit-data 
+ path_url=/submit-data 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '41', 'Content-Type': 'application/x-www-form-urlencoded'} 
+ body=name=John+Doe&amp;email=johndoe%40example.com 
+ </msg>
+<msg time="2024-03-16T21:51:00.875085" level="INFO">POST Response : url=http://localhost:5000/submit-data 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.1 Python/3.12.0', 'Date': 'Sat, 16 Mar 2024 16:21:00 GMT', 'Content-Type': 'application/json', 'Content-Length': '227', 'Connection': 'close'} 
+ body={"data":{"created_at":"2024-03-16 21:51:00","email":"johndoe@example.com","id":"6a2f6c79-b418-415e-8709-615a656a8863","message":"Form data received successfully","name":"John Doe"},"message":"Form data received successfully!"}
+ 
+ </msg>
+<msg time="2024-03-16T21:51:00.875085" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>Submit Data</arg>
+<arg>/submit-data</arg>
+<arg>data=${data}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2024-03-16T21:50:58.825342" elapsed="2.049743"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2024-03-16T21:51:00.877077" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-03-16T21:51:00.876082" elapsed="0.000995"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-03-16T21:51:00.877077" level="INFO">${response_data} = {'data': {'created_at': '2024-03-16 21:51:00', 'email': 'johndoe@example.com', 'id': '6a2f6c79-b418-415e-8709-615a656a8863', 'message': 'Form data received successfully', 'name': 'John Doe'}, 'message...</msg>
+<var>${response_data}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-03-16T21:51:00.877077" elapsed="0.000000"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${response_data["message"]}</arg>
+<arg>Form data received successfully</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2024-03-16T21:51:00.878112" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<msg time="2024-03-16T21:51:00.879189" level="INFO">False</msg>
+<arg>${response_data["data"]}</arg>
+<arg>id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-03-16T21:51:00.879189" elapsed="0.000000"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<msg time="2024-03-16T21:51:00.880198" level="INFO">False</msg>
+<arg>${response_data["data"]}</arg>
+<arg>created_at</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2024-03-16T21:51:00.879189" elapsed="0.001009"/>
+</kw>
+<doc>Test submitting form data to the /submit-data endpoint</doc>
+<tag>submit-data</tag>
+<status status="PASS" start="2024-03-16T21:50:58.823341" elapsed="2.056857"/>
+</test>
+<test id="s1-t3" name="Test Method Not Allowed for /submit-json" line="38">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:51:00.882256" level="INFO">Creating Session using : alias=Submit Json Session, url=http://localhost:5000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>Submit Json Session</arg>
+<arg>http://localhost:5000</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2024-03-16T21:51:00.882256" elapsed="0.000000"/>
+</kw>
+<kw name="Run Keyword And Ignore Error" owner="BuiltIn">
+<kw name="DELETE On Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:51:02.904529" level="INFO">DELETE Request : url=http://localhost:5000/submit-json 
+ path_url=/submit-json 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2024-03-16T21:51:02.905527" level="INFO">DELETE Response : url=http://localhost:5000/submit-json 
+ status=405, reason=METHOD NOT ALLOWED 
+ headers={'Server': 'Werkzeug/3.0.1 Python/3.12.0', 'Date': 'Sat, 16 Mar 2024 16:21:02 GMT', 'Content-Type': 'text/html; charset=utf-8', 'Allow': 'POST, OPTIONS', 'Content-Length': '153', 'Connection': 'close'} 
+ body=&lt;!doctype html&gt;
+&lt;html lang=en&gt;
+&lt;title&gt;405 Method Not Allowed&lt;/title&gt;
+&lt;h1&gt;Method Not Allowed&lt;/h1&gt;
+&lt;p&gt;The method is not allowed for the requested URL.&lt;/p&gt;
+ 
+ </msg>
+<msg time="2024-03-16T21:51:02.905527" level="FAIL">HTTPError: 405 Client Error: METHOD NOT ALLOWED for url: http://localhost:5000/submit-json</msg>
+<arg>Submit Json Session</arg>
+<arg>/submit-json</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2024-03-16T21:51:00.882256" elapsed="2.024271">HTTPError: 405 Client Error: METHOD NOT ALLOWED for url: http://localhost:5000/submit-json</status>
+</kw>
+<msg time="2024-03-16T21:51:02.907531" level="INFO">${response} = ('FAIL', 'HTTPError: 405 Client Error: METHOD NOT ALLOWED for url: http://localhost:5000/submit-json')</msg>
+<var>${response}</var>
+<arg>DELETE On Session</arg>
+<arg>Submit Json Session</arg>
+<arg>/submit-json</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="PASS" start="2024-03-16T21:51:00.882256" elapsed="2.025275"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>'${response[0]}' != 'FAIL'</arg>
+<arg>Handle Error</arg>
+<arg>${response}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2024-03-16T21:51:02.907531" elapsed="0.000000"/>
+</kw>
+<doc>Verify that the /submit-json endpoint returns 405 Method Not Allowed when a wrong request method is used.</doc>
+<status status="PASS" start="2024-03-16T21:51:00.881248" elapsed="2.027283"/>
+</test>
+<test id="s1-t4" name="Test Method Not Allowed for /submit-data" line="44">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:51:02.910529" level="INFO">Creating Session using : alias=Submit Data Session, url=http://localhost:5000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>Submit Data Session</arg>
+<arg>http://localhost:5000</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2024-03-16T21:51:02.910529" elapsed="0.000000"/>
+</kw>
+<kw name="Run Keyword And Ignore Error" owner="BuiltIn">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:51:04.942640" level="INFO">GET Request : url=http://localhost:5000/submit-data 
+ path_url=/submit-data 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2024-03-16T21:51:04.942640" level="INFO">GET Response : url=http://localhost:5000/submit-data 
+ status=405, reason=METHOD NOT ALLOWED 
+ headers={'Server': 'Werkzeug/3.0.1 Python/3.12.0', 'Date': 'Sat, 16 Mar 2024 16:21:04 GMT', 'Content-Type': 'text/html; charset=utf-8', 'Allow': 'POST, OPTIONS', 'Content-Length': '153', 'Connection': 'close'} 
+ body=&lt;!doctype html&gt;
+&lt;html lang=en&gt;
+&lt;title&gt;405 Method Not Allowed&lt;/title&gt;
+&lt;h1&gt;Method Not Allowed&lt;/h1&gt;
+&lt;p&gt;The method is not allowed for the requested URL.&lt;/p&gt;
+ 
+ </msg>
+<msg time="2024-03-16T21:51:04.942640" level="FAIL">HTTPError: 405 Client Error: METHOD NOT ALLOWED for url: http://localhost:5000/submit-data</msg>
+<arg>Submit Data Session</arg>
+<arg>/submit-data</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2024-03-16T21:51:02.910529" elapsed="2.033648">HTTPError: 405 Client Error: METHOD NOT ALLOWED for url: http://localhost:5000/submit-data</status>
+</kw>
+<msg time="2024-03-16T21:51:04.944177" level="INFO">${response} = ('FAIL', 'HTTPError: 405 Client Error: METHOD NOT ALLOWED for url: http://localhost:5000/submit-data')</msg>
+<var>${response}</var>
+<arg>GET On Session</arg>
+<arg>Submit Data Session</arg>
+<arg>/submit-data</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="PASS" start="2024-03-16T21:51:02.910529" elapsed="2.033648"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>'${response[0]}' != 'FAIL'</arg>
+<arg>Handle Error</arg>
+<arg>${response}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2024-03-16T21:51:04.944709" elapsed="0.000000"/>
+</kw>
+<doc>Verify that the /submit-data endpoint returns 405 Method Not Allowed when a wrong request method is used.</doc>
+<status status="PASS" start="2024-03-16T21:51:02.909529" elapsed="2.035713"/>
+</test>
+<test id="s1-t5" name="Test Missing Required Fields" line="50">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:51:04.946853" level="INFO">Creating Session using : alias=Test Session, url=http://localhost:5000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>Test Session</arg>
+<arg>http://localhost:5000</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2024-03-16T21:51:04.946345" elapsed="0.000508"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-03-16T21:51:04.947382" level="INFO">${payload} = {'name': 'John'}</msg>
+<var>${payload}</var>
+<arg>name=John</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-03-16T21:51:04.946853" elapsed="0.000529"/>
+</kw>
+<kw name="Run Keyword And Ignore Error" owner="BuiltIn">
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2024-03-16T21:51:06.984112" level="INFO">POST Request : url=http://localhost:5000/submit-json 
+ path_url=/submit-json 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, br', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '16', 'Content-Type': 'application/json'} 
+ body=b'{"name": "John"}' 
+ </msg>
+<msg time="2024-03-16T21:51:06.984112" level="INFO">POST Response : url=http://localhost:5000/submit-json 
+ status=400, reason=BAD REQUEST 
+ headers={'Server': 'Werkzeug/3.0.1 Python/3.12.0', 'Date': 'Sat, 16 Mar 2024 16:21:06 GMT', 'Content-Type': 'application/json', 'Content-Length': '53', 'Connection': 'close'} 
+ body={"error":"Missing required fields in JSON Payload."}
+ 
+ </msg>
+<msg time="2024-03-16T21:51:06.984112" level="FAIL">HTTPError: 400 Client Error: BAD REQUEST for url: http://localhost:5000/submit-json</msg>
+<arg>Test Session</arg>
+<arg>/submit-json</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2024-03-16T21:51:04.947382" elapsed="2.037781">HTTPError: 400 Client Error: BAD REQUEST for url: http://localhost:5000/submit-json</status>
+</kw>
+<msg time="2024-03-16T21:51:06.985163" level="INFO">${response} = ('FAIL', 'HTTPError: 400 Client Error: BAD REQUEST for url: http://localhost:5000/submit-json')</msg>
+<var>${response}</var>
+<arg>POST On Session</arg>
+<arg>Test Session</arg>
+<arg>/submit-json</arg>
+<arg>json=${payload}</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="PASS" start="2024-03-16T21:51:04.947382" elapsed="2.038740"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>'${response[0]}' != 'FAIL'</arg>
+<arg>Handle Error</arg>
+<arg>${response}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2024-03-16T21:51:06.986122" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-03-16T21:51:04.946293" elapsed="2.040830"/>
+</test>
+<status status="PASS" start="2024-03-16T21:50:56.634921" elapsed="10.353202"/>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">submit-data</stat>
+</tag>
+<suite>
+<stat pass="5" fail="0" skip="0" id="s1" name="Test Json Requests">Test Json Requests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
