@@ -6,9 +6,9 @@ This repository contains a Flask server for handling POST requests with JSON pay
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Load Testing](#load-testing)
+- [Running the App](#usage)
+- [Testing the App](#testing)
+- [Load  Testing with Locust](#load-testing)
 
 ## Introduction
 
