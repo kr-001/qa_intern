@@ -25,8 +25,8 @@ To run this application locally, follow these steps:
 
 1. Clone this repository to your local machine:
     ```bash
-    git clone https://your_github_repo_url.git
-    cd your_app_name
+    git clone https://github.com/kr-001/qa_intern.git
+    cd qa_intern
     ```
 
 2. Install dependencies:
